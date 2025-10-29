@@ -22,22 +22,25 @@ public class TodoController {
 
     private final TodoService todoService;
 
+    // 전체 목록 조회
     @RequestMapping("list")
     public void list(Model model) {
-        log.info("list() 호출 성공");
+        log.info("list() start");
         model.addAttribute("dtoList", todoService.getAll());
     }
 
+    // 목록 생성 페이지 이동
     @GetMapping("/register")
     public void register() {
-        log.info("register() 호출 성공");
+        log.info("Get register() start");
     }
 
+    // 목록 생성
     @PostMapping("/register")
     public String registerPost(@Valid TodoDTO todoDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
-        log.info("registerPost() 호출 성공");
+        log.info("Post register() start");
         if (bindingResult.hasErrors()) {
             log.info("에러 발생..");
             redirectAttributes.addFlashAttribute("errors", bindingResult);
@@ -48,42 +51,37 @@ public class TodoController {
         return "redirect:/todo/list";
     }
 
+    // 상세 목록 조회
     @GetMapping({"/read","/modify"})
     public void read(Long tno, Model model) {
-        log.info("read() 호출 성공");
-
+        log.info("Get read() start");
         TodoDTO todoDTO = todoService.getOne(tno);
         log.info(todoDTO);
-
         model.addAttribute("dto",todoDTO);
     }
 
+    // 목록 삭제
     @PostMapping("/remove")
     public String remove(Long tno,RedirectAttributes redirectAttributes) {
-        log.info("remove() 호출 성공");
+        log.info("Post remove() start");
         log.info(tno + "삭제");
-
         todoService.remove(tno);
-
         return "redirect:/todo/list";
     }
 
+    // 목록 수정
     @PostMapping("/modify")
     public String modify (@Valid TodoDTO todoDTO,
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes){
-
-        log.info("modifyPost() 호출 성공");
+        log.info("Post modifyPost() start");
         if (bindingResult.hasErrors()) {
             log.info("에러 발생..");
             redirectAttributes.addFlashAttribute("errors", bindingResult);
             return "redirect:/todo/modify";
         }
-
         log.info(todoDTO);
-
         todoService.modify(todoDTO);
-
         return "redirect:/todo/list";
     }
 }

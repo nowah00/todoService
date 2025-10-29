@@ -2,6 +2,7 @@ package com.ssg.todoservice.mapper;
 
 import com.ssg.todoservice.domain.TodoVO;
 import lombok.extern.log4j.Log4j2;
+import lombok.var;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,10 @@ public class MapperTests {
     @Test
     public void testSelectAll() {
         List<TodoVO> voList = todoMapper.selectAll();
-        log.info(voList);
+
+        for (var vo : voList) {
+            log.info(vo);
+        }
     }
 
     @Test
