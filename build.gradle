@@ -22,65 +22,45 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    // ======================= 서블릿 & 웹 =======================
-// 서블릿 API (톰캣에서 제공, 컴파일 시만 필요)
+// ======================= 서블릿 & 웹 =======================
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-
-// JSTL (JSP 표준 태그 라이브러리)
     implementation 'jstl:jstl:1.2'
 
 // ======================= 스프링 프레임워크 =======================
-// 스프링 핵심 (DI, IoC 컨테이너)
     implementation 'org.springframework:spring-core:5.3.27'
-
-// 스프링 컨텍스트 (ApplicationContext 관리)
     implementation 'org.springframework:spring-context:5.3.27'
-
-// 트랜잭션 관리 (@Transactional)
     implementation 'org.springframework:spring-tx:5.3.27'
-
-// JDBC 지원 (JdbcTemplate)
     implementation 'org.springframework:spring-jdbc:5.3.27'
-
-// MVC 웹 프레임워크 (Controller, View 처리)
     implementation 'org.springframework:spring-webmvc:5.3.27'
-
-// 테스트 지원 (MockMvc, 통합 테스트)
     testImplementation 'org.springframework:spring-test:5.3.27'
 
-// ======================= DB 연결 =======================
-// MySQL JDBC 드라이버
-    implementation 'mysql:mysql-connector-java:8.0.22'
+// ======================= 모델 매퍼 =======================
+    implementation 'org.modelmapper:modelmapper:3.0.0'
 
-// HikariCP (DB 커넥션 풀)
+// ======================= DB 연결 =======================
+    implementation 'mysql:mysql-connector-java:8.0.22'
     implementation 'com.zaxxer:HikariCP:5.0.1'
 
 // ======================= MyBatis =======================
-// SQL 매퍼 프레임워크
     implementation 'org.mybatis:mybatis:3.5.6'
-
-// 스프링-MyBatis 연동
     implementation 'org.mybatis:mybatis-spring:2.0.6'
 
 // ======================= 로깅 =======================
-// Log4j2 (로깅 처리)
     implementation 'org.apache.logging.log4j:log4j-api:2.22.1'
     implementation 'org.apache.logging.log4j:log4j-core:2.22.1'
-
-// 스프링 로깅 연결 (SLF4J → Log4j2)
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.22.1'
 
 // ======================= 롬복 =======================
-// 코드 자동 생성 (Getter/Setter 등)
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
 // ======================= 테스트 =======================
-// JUnit 5 (단위 테스트)
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 }
 
 test {

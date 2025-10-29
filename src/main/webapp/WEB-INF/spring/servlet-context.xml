@@ -15,15 +15,25 @@
     </bean>
 
     <context:component-scan base-package="com.ssg.todoservice.controller"/>
-    <mvc:annotation-driven conversion-service="conversionService"/>
-    <mvc:resources mapping="/resources/**" location="/static/"/>
 
+    <mvc:annotation-driven conversion-service="conversionService"/>
+
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
-<!--                <bean class="com.ssg.todoservice.controller.formatter.LocalDateFormatter"/>-->
+                <bean class="com.ssg.todoservice.controller.formatter.LocalDateFormatter"/>
             </set>
         </property>
     </bean>
+
+<!--    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+<!--        <property name="formatters">-->
+<!--            <set>-->
+<!--                <bean class="com.ssg.todoservice.controller.formatter.LocalDateFormatter"/>-->
+<!--                <bean class="com.ssg.todoservice.controller.formatter.CheckboxFormatter"/>-->
+<!--            </set>-->
+<!--        </property>-->
+<!--    </bean>-->
 
 </beans>

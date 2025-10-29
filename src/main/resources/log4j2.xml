@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <Configuration status="WARN">
+
     <Appenders>
-        <Console name="CONSOLE" target="SYSTEM_OUT">
-            <PatternLayout charset="UTF-8"
-                           pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout charset="UTF-8" pattern="%d{hh:mm:ss} %5p [%c] %m%n"/>
         </Console>
     </Appenders>
 
     <Loggers>
-        <Root level="INFO">
-            <AppenderRef ref="CONSOLE"/>
-        </Root>
+        <logger name="org.springframework" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="com.ssg" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="com.ssg.springEx.mapper" level="TRACE" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <root level="INFO" additivity="false">
+            <AppenderRef ref="console"/>
+        </root>
+
     </Loggers>
 
 </Configuration>
