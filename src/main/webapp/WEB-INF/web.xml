@@ -4,52 +4,66 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!-- 스프링 루트 컨텍스트 설정 파일 위치 지정 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring/root-context.xml</param-value>
     </context-param>
 
+    <!-- ContextLoaderListener: 웹 애플리케이션 시작 시 root-context.xml을 읽어 스프링 컨테이너(ApplicationContext) 초기화 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!-- DispatcherServlet: 스프링 MVC의 핵심 서블릿 (Front Controller) -->
     <servlet>
         <servlet-name>appServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+        <!-- DispatcherServlet이 사용할 설정 파일 지정 -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>WEB-INF/spring/servlet-context.xml</param-value>
         </init-param>
 
+        <!-- 매핑 실패 시 예외를 던지도록 설정 -->
         <init-param>
             <param-name>throwExceptionIfNoHandlerFound</param-name>
             <param-value>true</param-value>
         </init-param>
 
+        <!-- 서버 시작 시 서블릿을 바로 로드 -->
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <!-- 모든 요청 URL("/")을 DispatcherServlet으로 전달 -->
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- CharacterEncodingFilter: 요청과 응답의 문자 인코딩을 UTF-8로 강제 설정 -->
     <filter>
         <filter-name>encoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+
+        <!-- 인코딩 지정 -->
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
         </init-param>
 
+        <!-- 모든 요청/응답에 인코딩 강제 적용 -->
         <init-param>
             <param-name>forceEncoding</param-name>
             <param-value>true</param-value>
         </init-param>
     </filter>
 
+    <!-- 모든 요청 URL에 인코딩 필터 적용 -->
     <filter-mapping>
         <filter-name>encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
 </web-app>

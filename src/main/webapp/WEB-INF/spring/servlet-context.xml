@@ -8,26 +8,32 @@
            http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
            http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+<!-- InternalResourceViewResolver : 컨트롤러가 반환한 뷰에 prefix 와 suffix 를 붙여 실제 JSP 파일 경로를 완성 -->
+<!--- prefix : 파일의 앞부분 경로를 정의                                                               -->
+<!--- suffix : 파일의 확장자를 정의                                                                   -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
         <property name="contentType" value="text/html; charset=UTF-8"/>
     </bean>
 
+
+<!-- 지정한 패키지(com.ssg.todoservice.controller) 아래의 클래스를 자동으로 스캔해 스프링 빈으로 등록하는 설정 -->
+<!--- ex) @Controller, @Service 등                                                            -->
+<!--- 이 설정을 하지 않으면 수동으로 bean 을 등록해야함                                                 -->
+<!--- 이 친구가 컨트롤러를 찾아서 등록함                                                              -->
     <context:component-scan base-package="com.ssg.todoservice.controller"/>
 
-    <mvc:annotation-driven conversion-service="conversionService"/>
 
+<!-- 정적 자원(JS, CSS, 이미지 등)을 /resources/** 경로로 접근 가능하게 하는 기능 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="formatters">
-            <set>
-                <bean class="com.ssg.todoservice.controller.formatter.LocalDateFormatter"/>
-            </set>
-        </property>
-    </bean>
 
+
+<!-- 어노테이션 기반 MVC 기능 활성화(@Controller. @GetMapping 등) -->
+<!-- conversionService 빈을 사용해 요청 데이터의 형변환           -->
     <mvc:annotation-driven conversion-service="conversionService"/>
+
+<!-- 형식 변환기(Formatter)를 관리하는 컨버전 서비스 빈 등록 -->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>

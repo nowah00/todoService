@@ -10,12 +10,12 @@
        http://mybatis.org/schema/mybatis-spring
        http://mybatis.org/schema/mybatis-spring.xsd">
 
+<!-- DB 연결 설정 정보를 담는 Bean -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/sqldb?serverTimezone=Asia/Seoul"></property>
         <property name="username" value="root"></property>
         <property name="password" value="mysql1234"></property>
-
         <property name="dataSourceProperties">
             <props>
                 <prop key="cachePrepStmts">true</prop>
@@ -25,17 +25,25 @@
         </property>
     </bean>
 
+<!-- 실제 커넥션 풀(DataSource) 생성 -->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+<!--    위 설정값 기반으로 풀 초기화 -->
         <constructor-arg ref="hikariConfig"/>
     </bean>
 
+<!-- MyBatis의 핵심 객체 SqlSessionFactory를 스프링 빈으로 생성해 관리 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--    HikariDatasource를 연결하여 DB와 통신 -->
         <property name="dataSource" ref="dataSource"/>
+<!--    MyBatis 매퍼(XML 쿼리 파일)들의 경로 지정 -->
         <property name="mapperLocations" value="classpath:/mappers/**/*.xml"></property>
     </bean>
 
+<!-- 지정된 패키지(com.ssg.todoservice.mapper) 아래의 @Mapper 또는 단순 인터페이스들을 자동으로 찾아 프록시 객체(Mapper 빈)로 등록 -->
+<!-- 이 프록시는 내부적으로 SqlSessionFactory를 사용해 XML 매퍼 파일과 연결되어 SQL을 실행 -->
     <mybatis:scan base-package="com.ssg.todoservice.mapper"></mybatis:scan>
 
+<!-- 스프링이 특정 패키지에서 컴포넌트를 자동 탐색해 빈으로 등록 -->
     <context:component-scan base-package="com.ssg.todoservice.config"/>
     <context:component-scan base-package="com.ssg.todoservice.service"/>
 
